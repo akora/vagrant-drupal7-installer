@@ -1,6 +1,6 @@
 ### Install Drupal 7 & Drush inside a Vagrant (VirtualBox) VM
 
-Based on HashiCorp's (??) "ubuntu/trusty64" box.
+Based on HashiCorp's "ubuntu/trusty64" box.
 
 The base VM is built as described in the `Vagrantfile` and `bootstrap.sh`.
 
