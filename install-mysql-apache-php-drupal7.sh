@@ -43,6 +43,11 @@ service mysql restart
 echo "=== Installing Apache & PHP 5..."
 apt-get install -y apache2 php5 libapache2-mod-php5 php5-mysql php5-mcrypt php5-gd php5-curl libssh2-php
 
+echo "=== Installing local mail delivery capability..."
+debconf-set-selections <<< "postfix postfix/mailname string vm01.vbox.local.dev"
+debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
+apt-get install -y postfix mailutils
+
 echo "=== Enabling mod_rewrite & clean URLs..."
 a2enmod rewrite
 sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
@@ -74,9 +79,15 @@ cd /var/www/html
 drush en garland -y
 drush vset theme_default garland
 drush vset theme_admin garland
-drush dl demo backup_migrate ctools views auto_nodetitle token features nodeformcols field_group node_save_redirect
-drush en color field_ui locale menu path taxonomy views views_ui token -y
+drush dl logintoboggan demo backup_migrate ctools views auto_nodetitle token features nodeformcols field_group node_save_redirect
+drush en color field_ui locale menu path taxonomy backup_migrate logintoboggan views views_ui token -y
 drush vset file_private_path sites/default/private -y
+drush vset logintoboggan_login_with_email 1 -y
+drush vset site_default_country "HU" -y
+drush vset date_default_timezone "Europe/Budapest" -y
+drush vset date_first_day 1 -y
+drush vset configurable_timezones 0 -y
+drush ev 'variable_set("theme_settings", array("toggle_logo" => "0"))'
 drush cron
 
 exit 0
