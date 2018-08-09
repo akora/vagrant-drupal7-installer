@@ -20,7 +20,7 @@ Now you are inside the box. Here install MySQL, Apache, PHP 5, Drush, and finall
 
 ``` shell
 cd shared
-sudo ./install-mysql-apache-php-drupal7.sh
+sudo ./install-mysql-apache-php-postfix-drupal7.sh
 ```
 
 Once it's all finished, visit 192.168.100.101 in a web browser.
